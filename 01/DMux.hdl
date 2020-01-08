@@ -12,7 +12,10 @@
 CHIP DMux {
     IN in, sel;
     OUT a, b;
-
+    /* 
+        出力ピンa, 出力ピンb どちらに選択ビットとして逆の値を出力させるかは任意
+        今回は出力ピンaと出力ピンbのアウトプットが定まっているため、そのアウトプットに合わせる
+    */
     PARTS:
     	Not(in=sel, out=notsel);
     	And(a=in, b=notsel, out=a);
