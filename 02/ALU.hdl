@@ -46,14 +46,14 @@ CHIP ALU {
         Mux16(a=x, b=false, sel=zx, out=outzx);
         
         //if nx==1 then x[0..15]=!x[0..15] else x[16]
-        Not16(in=x, out=notnx);
+        Not16(in=outzx, out=notnx);
         Mux16(a=outzx, b=notnx, sel=nx, out=outnx);
 
         //if zy==1 then y[0..15]=0 else y[16]
         Mux16(a=y, b=false, sel=zy, out=outzy);
 
         //if zy==1 then y[0..15]=!y[0..15] else y[16]
-        Not16(in=y, out=notny);
+        Not16(in=outzy, out=notny);
         Mux16(a=outzy, b=notny, sel=ny, out=outny);
 
         //if f==1 then out=x+y else out=x&y
