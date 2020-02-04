@@ -12,3 +12,62 @@
 // the screen should remain fully clear as long as no key is pressed.
 
 // Put your code here.
+
+// 初期化
+// 最大スクリーンアドレスの計算
+    @8192
+    D=M
+    @SCREEN
+    D=D+A
+    @MAXADRESS
+    M=D
+
+    (KEY)
+    @SCREEN
+    D=A
+    @address //スクリーンアドレスの初期化
+    M=D
+
+    @KBD //キーボード取得
+    D=M
+
+    //振り分け
+    @WHITE
+    D;JEQ //JEQ -> if out == 0 jump
+    @BLACK
+    0;JMP //jump
+
+    (WHITE)
+    @color
+    M=0
+    @LOOP
+    0;JMP
+
+    (BLACK)
+    @color
+    M=-1 //1 or -1
+    @LOOP
+    0;JMP
+
+    //スクリーン書き換え
+    (LOOP)
+    @color
+    D=M
+
+    @address
+    A=M //値のアドレスに移動
+    M=D //アドレスの値をcolorに
+
+    D=A+1 //アドレスに1を加えたところに移動
+    @address //一度現状のアドレスをAレジスタにセットして
+    M=D //インクリメントした新たなメモリアドレスを次に移動するために新たなアドレスを値としてセットする(次のメモリアドレスへ進む（更新する）)
+
+    @MAXADRESS
+    D=M-D //Dが0かどうか
+
+    @LOOP
+    D;JNE //JNE -> if out != 0 jump
+
+    @KEY
+    0;JMP
+    (END)
